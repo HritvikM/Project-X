@@ -1,0 +1,394 @@
+[3/29, 9:48 pm] ammy🌝: ques 1 : program to merge two linked list into a single linked list.
+
+
+#include <iostream>
+using namespace std;
+
+class node {
+public:
+    int data;
+    node* next;
+    
+    node(int data) {
+        this->data = data;
+        this->next = nullptr;
+    }
+};
+
+class linkedlist {
+public:
+    node* head;
+    
+    linkedlist() {
+        this->head = nullptr;
+    }
+    
+    void add_node(int data) {
+        node* new_node = new node(data);
+        if (this->head == nullptr) {
+            this->head = new_node;
+        }
+        else {
+            node* current = this->head;
+            while (current->next != nullptr) {
+                current = current->next;
+            }
+            current->next = new_node;
+        }
+    }
+    
+    void print_list() {
+        node* current = this->head;
+        while (current != nullptr) {
+            cout << current->data << " ";
+            current = current->next;
+        }
+        cout << endl;
+    }
+    
+    static linkedlist merge_lists(linkedlist list1, linkedlist list2) {
+        linkedlist merged_list;
+        node* current1 = list1.head;
+        node* current2 = list2.head;
+        
+        while (current1 != nullptr && current2 != nullptr) {
+            if (current1->data < current2->data) {
+                merged_list.add_node(current1->data);
+                current1 = current1->next;
+            }
+            else {
+                merged_list.add_node(current2->data);
+                current2 = current2->next;
+            }
+        }
+        
+        while (current1 != nullptr) {
+            merged_list.add_node(current1->data);
+            current1 = current1->next;
+        }
+        
+        while (current2 != nullptr) {
+            merged_list.add_node(current2->data);
+            current2 = current2->next;
+        }
+        
+        return merged_list;
+    }
+};
+
+int main() {
+    linkedlist list1;
+    list1.add_node(1);
+    list1.add_node(3);
+    list1.add_node(5);
+    cout << "list 1: ";
+    list1.print_list();
+    
+    linkedlist list2;
+    list2.add_node(2);
+    list2.add_node(4);
+    list2.add_node(6);
+    cout << "list 2: ";
+    list2.print_list();
+    
+    linkedlist merged_list = linkedlist::merge_lists(list1, list2);
+    cout << "merged list: ";
+    merged_list.print_list();
+    
+    return 0;
+}
+[3/29, 9:48 pm] ammy🌝: in this example program, we define a node class to represent each node in the linked list and a linkedlist class to represent the list itself. the merge_lists method is a static method of the linkedlist class that takes two linked lists as arguments and returns a new linked list that is the result of merging the two input lists.
+
+we iterate through both input lists using two separate while loops and compare the values of the nodes in each list. we add the node with the smaller value to the merged list first, then move on to the next node in that list. if the values are equal, we add both nodes to the merged list. once one list is fully iterated, we add the remaining nodes from the other list to the merged list. finally, we return the merged list.
+[3/29, 9:54 pm] ammy🌝: ques  2 : program to print alternate elements of linked list.
+
+
+#include <iostream>
+using namespace std;
+
+class node {
+public:
+    int data;
+    node* next;
+
+    node(int data) {
+        this->data = data;
+        this->next = nullptr;
+    }
+};
+
+class linkedlist {
+public:
+    node* head;
+
+    linkedlist() {
+        this->head = nullptr;
+    }
+
+    void add_node(int data) {
+        node* new_node = new node(data);
+        if (this->head == nullptr) {
+            this->head = new_node;
+        }
+        else {
+            node* current = this->head;
+            while (current->next != nullptr) {
+                current = current->next;
+            }
+            current->next = new_node;
+        }
+    }
+
+    void print_alternate() {
+        int count = 0;
+        node* current = this->head;
+        while (current != nullptr) {
+            if (count % 2 == 0) {
+                cout << current->data << " ";
+            }
+            count++;
+            current = current->next;
+        }
+        cout << endl;
+    }
+};
+
+int main() {
+    linkedlist list;
+    list.add_node(1);
+    list.add_node(2);
+    list.add_node(3);
+    list.add_node(4);
+    list.add_node(5);
+    cout << "list: ";
+    list.print_alternate();
+
+    return 0;
+}
+[3/29, 9:54 pm] ammy🌝: this program is similar to the previous one, but instead of using a boolean variable to keep track of whether we should print the next element, we use a counter variable count that increments with each node. we print the element if its index is even (i.e., count % 2 == 0). we continue this process until we reach the end of the linked list.
+[3/29, 10:01 pm] ammy🌝: ques 3 : program  in linked list insertion at head and separate even and odd values.
+
+
+#include <iostream>
+using namespace std;
+
+class node {
+public:
+    int data;
+    node* next;
+
+    node(int data) {
+        this->data = data;
+        this->next = nullptr;
+    }
+};
+
+class linkedlist {
+public:
+    node* head;
+
+    linkedlist() {
+        this->head = nullptr;
+    }
+
+    void add_node(int data) {
+        node* new_node = new node(data);
+        if (this->head == nullptr) {
+            this->head = new_node;
+        }
+        else {
+            new_node->next = this->head;
+            this->head = new_node;
+        }
+    }
+
+    void print_list() {
+        node* current = this->head;
+        while (current != nullptr) {
+            cout << current->data << " ";
+            current = current->next;
+        }
+        cout << endl;
+    }
+
+    void separate_even_odd(linkedlist& even_list, linkedlist& odd_list) {
+        node* current = this->head;
+        while (current != nullptr) {
+            if (current->data % 2 == 0) {
+                even_list.add_node(current->data);
+            }
+            else {
+                odd_list.add_node(current->data);
+            }
+            current = current->next;
+        }
+    }
+};
+
+int main() {
+    linkedlist list;
+    list.add_node(3);
+    list.add_node(1);
+    list.add_node(4);
+    list.add_node(2);
+    list.add_node(5);
+    cout << "original list: ";
+    list.print_list();
+
+    linkedlist even_list;
+    linkedlist odd_list;
+    list.separate_even_odd(even_list, odd_list);
+
+    cout << "even list: ";
+    even_list.print_list();
+
+    cout << "odd list: ";
+    odd_list.print_list();
+
+    return 0;
+}
+[3/29, 10:02 pm] ammy🌝: this program is similar to the previous one, but instead of using a while loop to iterate through the linked list and add each node to the end of the even or odd list, we use the add_node method to add each node to the head of the appropriate list. when we add a node to the head of the list, we simply set the next pointer of the new node to the current head of the list, and then update the head of the list to point to the new node.
+
+this approach is more efficient than the previous one, as it eliminates the need to iterate through the entire linked list to add each node to the end of the appropriate list.
+[3/29, 10:06 pm] ammy🌝: ques 4 : program n linked list insertion at end and separate negative and positive values.
+
+
+#include <iostream>
+using namespace std;
+
+class node {
+public:
+    int data;
+    node* next;
+
+    node(int data) {
+        this->data = data;
+        this->next = nullptr;
+    }
+};
+
+class linkedlist {
+public:
+    node* head;
+
+    linkedlist() {
+        this->head = nullptr;
+    }
+
+    void add_node(int data) {
+        node* new_node = new node(data);
+        if (this->head == nullptr) {
+            this->head = new_node;
+        }
+        else {
+            node* current = this->head;
+            while (current->next != nullptr) {
+                current = current->next;
+            }
+            current->next = new_node;
+        }
+    }
+
+    void print_list() {
+        node* current = this->head;
+        while (current != nullptr) {
+            cout << current->data << " ";
+            current = current->next;
+        }
+        cout << endl;
+    }
+
+    void separate_negative_positive(linkedlist& negative_list, linkedlist& positive_list) {
+        node* current = this->head;
+        while (current != nullptr) {
+            if (current->data < 0) {
+                negative_list.add_node(current->data);
+            }
+            else {
+                positive_list.add_node(current->data);
+            }
+            current = current->next;
+        }
+    }
+};
+
+int main() {
+    linkedlist list;
+    list.add_node(-2);
+    list.add_node(7);
+    list.add_node(-1);
+    list.add_node(8);
+    list.add_node(-4);
+    list.add_node(5);
+    cout << "original list: ";
+    list.print_list();
+
+    linkedlist negative_list;
+    linkedlist positive_list;
+    list.separate_negative_positive(negative_list, positive_list);
+
+    cout << "negative list: ";
+    negative_list.print_list();
+
+    cout << "positive list: ";
+    positive_list.print_list();
+
+    return 0;
+}
+[3/29, 10:06 pm] ammy🌝: this program is similar to the previous ones, but with a different set of data. we use the add_node method to add each node to the end of the list, which requires iterating through the list until the end is reached. we then use the separate_negative_positive method to iterate through the original list, adding each negative node to the negative_list and each positive node to the positive_list. finally, we print out the negative_list and positive_list to verify that they contain the correct values.
+[3/29, 10:21 pm] ammy🌝: ques : check palindrome
+
+#include <iostream>
+using namespace std;
+
+class node {
+public:
+    string data;
+    node* next;
+};
+
+void push(node** head_ref, string new_data) {
+    node* new_node = new node;
+    new_node->data = new_data;
+    new_node->next = (*head_ref);
+    (*head_ref) = new_node;
+}
+
+bool ispalindromeutil(node** left, node* right) {
+    if (right == null) {
+        return true;
+    }
+    bool ispal = ispalindromeutil(left, right->next);
+    if (!ispal) {
+        return false;
+    }
+    bool isequal = ((*left)->data == right->data);
+    (*left) = (*left)->next;
+    return isequal;
+}
+
+bool ispalindrome(node* head) {
+    return ispalindromeutil(&head, head);
+}
+
+int main() {
+    node* head = null;
+    push(&head, "racecar");
+    push(&head, "level");
+    push(&head, "deified");
+    push(&head, "hello");
+    if (ispalindrome(head))
+        cout << "the linked list is a palindrome";
+    else
+        cout << "the linked list is not a palindrome";
+    return 0;
+}
+[3/29, 10:21 pm] ammy🌝: in this implementation, we define a class called node that has a public member variable data to store the name, and a public member variable next to store a pointer to the next node in the linked list.
+
+we also define a push function to insert new nodes at the beginning of the linked list.
+
+the ispalindromeutil function is a recursive function that takes a left pointer and a right se as arguments. it recursively calls itself to move the right pointer to the end of the linked list, and then checks if the names at left and right are equal. it also moves the left pointer to the next node in the linked list.
+
+the ispalindrome function is a wrapper function that calls ispalindromeutil with the head of the linked list as arguments.
+
+finally, in the main function, we create a linked list with some example names and call ispalindrome on it to check if it is a palindrome. 
